@@ -20,3 +20,49 @@ Authorization: Basic HDB_ADMIN:password
 {
     "operation": "get_fingerprint"
 }
+
+###
+
+POST http://{{host}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Basic HDB_ADMIN:password
+
+{
+    "operation": "create_schema",
+    "schema": "test"
+}
+
+###
+
+POST http://{{host}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Basic HDB_ADMIN:password
+
+{
+    "operation": "drop_schema",
+    "schema": "test"
+}
+
+###
+
+POST http://{{host}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Basic HDB_ADMIN:password
+
+{
+    "operation": "describe_schema",
+    "schema": "test"
+}
+
+###
+
+POST http://{{host}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Basic HDB_ADMIN:password
+
+{
+    "operation": "create_table",
+    "schema": "test",
+    "table": "table1",
+    "hash_attribute": "id"
+}

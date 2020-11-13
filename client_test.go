@@ -1,8 +1,11 @@
 package harperdb
 
 import (
-	"log"
+	"fmt"
 	"testing"
+	"time"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 const (
@@ -11,28 +14,39 @@ const (
 	DEFAULT_PASSWORD = "password"
 )
 
+var (
+	c *Client
+)
+
+func init() {
+	c = createClient()
+}
+
 func createClient() *Client {
 	return NewClient(DEFAULT_ENDPOINT, DEFAULT_USERNAME, DEFAULT_PASSWORD)
 }
-func TestNewClient(t *testing.T) {
-	c := createClient()
 
-	regInfo, err := c.RegistrationInfo()
+func wait() {
+	// TODO Clarify with Harper team why this is necessary
+	time.Sleep(20 * time.Millisecond)
+}
+
+func randomID() string {
+	return fmt.Sprintf("id-%s", uuid.NewV4().String())
+}
+
+func TestNewClient(t *testing.T) {
+	_, err := c.RegistrationInfo()
 	if err != nil {
-		t.Fail()
+		t.Fatal(err)
 	}
 
-	log.Println(regInfo)
 }
 
 func TestGetFingerprint(t *testing.T) {
-	c := createClient()
-
-	fingerprint, err := c.GetFingerprint()
+	_, err := c.GetFingerprint()
 	if err != nil {
-		log.Println(err)
-		t.Fail()
+		t.Fatal(err)
 	}
 
-	log.Println(fingerprint)
 }

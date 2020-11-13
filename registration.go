@@ -1,7 +1,6 @@
 package harperdb
 
 import (
-	"log"
 	"time"
 )
 
@@ -16,15 +15,13 @@ type RegistrationInfoResponse struct {
 func (c *Client) RegistrationInfo() (*RegistrationInfoResponse, error) {
 	result := RegistrationInfoResponse{}
 
-	resp, err := c.opRequest(operation{
-		Operation: "registration_info",
+	err := c.opRequest(operation{
+		Operation: OP_REGISTRATION_INFO,
 	}, &result)
 
 	if err != nil {
 		return nil, err
 	}
-
-	log.Printf("RegistrationInfo: %d", resp.StatusCode())
 
 	return &result, nil
 }
@@ -36,15 +33,13 @@ type GetFingerprintResponse struct {
 func (c *Client) GetFingerprint() (*GetFingerprintResponse, error) {
 	result := GetFingerprintResponse{}
 
-	resp, err := c.opRequest(operation{
-		Operation: "get_fingerprint",
+	err := c.opRequest(operation{
+		Operation: OP_GET_FINGERPRINT,
 	}, &result)
 
 	if err != nil {
 		return nil, err
 	}
-
-	log.Printf("GetFingerprintInfo: %d", resp.StatusCode())
 
 	return &result, nil
 }
