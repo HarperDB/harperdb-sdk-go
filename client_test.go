@@ -28,7 +28,7 @@ func createClient() *Client {
 
 func wait() {
 	// TODO Clarify with Harper team why this is necessary
-	time.Sleep(20 * time.Millisecond)
+	time.Sleep(50 * time.Millisecond)
 }
 
 func randomID() string {
