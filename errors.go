@@ -15,3 +15,7 @@ type AlreadyExistsError struct {
 type DoesNotExistsError struct {
 	OperationFailedError
 }
+
+type UnknownJobStatusError struct {
+	OperationFailedError
+}

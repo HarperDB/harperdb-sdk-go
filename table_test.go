@@ -66,5 +66,33 @@ func TestCreateTableInUnknownSchema(t *testing.T) {
 	if e, ok := err.(*DoesNotExistsError); !ok {
 		t.Fatal(e)
 	}
+}
 
+func TestDescribeTable(t *testing.T) {
+	schema := randomID()
+	table := randomID()
+
+	if err := c.CreateSchema(schema); err != nil {
+		t.Fatal(err)
+	}
+
+	wait()
+
+	err := c.CreateTable(schema, table, "id")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	meta, err := c.DescribeTable(schema, table)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !(meta.Schema == schema &&
+		meta.Name == table &&
+		meta.HashAttribute == "id" &&
+		meta.RecordCount == 0) {
+		t.Log(meta)
+		t.Fail()
+	}
 }

@@ -188,3 +188,38 @@ Authorization: Basic HDB_ADMIN:password
 }
 
 ###
+
+POST http://{{host}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Basic HDB_ADMIN:password
+
+{
+	"operation":"csv_data_load",
+	"schema":"test",
+	"action": "insert",
+	"table":"table1",
+	"data":"id,name,section,country,image\n1,ENGLISH POINTER,British and Irish Pointers and Setters,GREAT BRITAIN,http://www.fci.be/Nomenclature/Illustrations/001g07.jpg\n2,ENGLISH SETTER,British and Irish Pointers and Setters,GREAT BRITAIN,http://www.fci.be/Nomenclature/Illustrations/002g07.jpg\n3,KERRY BLUE TERRIER,Large and medium sized Terriers,IRELAND,\n"
+}
+
+###
+
+POST http://{{host}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Basic HDB_ADMIN:password
+
+{
+	"operation":"describe_table",
+	"schema":"test",
+	"table":"table1"
+}
+
+###
+
+POST http://{{host}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Basic HDB_ADMIN:password
+
+{
+	"operation":"get_job",
+	"id":"f5e1e68b-200e-4449-8bbc-0d5fb092bfe9"
+}

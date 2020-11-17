@@ -28,8 +28,9 @@ func createClient() *Client {
 }
 
 func wait() {
-	// TODO Clarify with Harper team why this is necessary
-	time.Sleep(50 * time.Millisecond)
+	// According to HarperDB some operations are asyncronously penetrated between
+	// processes, so while the objects are created they are not immediately visible
+	time.Sleep(200 * time.Millisecond)
 }
 
 func randomID() string {

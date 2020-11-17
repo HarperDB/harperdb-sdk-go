@@ -11,19 +11,6 @@ type Client struct {
 	httpClient *resty.Client
 }
 
-type operation struct {
-	Operation       string        `json:"operation"`
-	Schema          string        `json:"schema,omitempty"`
-	Table           string        `json:"table,omitempty"`
-	HashAttribute   string        `json:"hash_attribute,omitempty"`
-	HashValues      interface{}   `json:"hash_values,omitempty"`
-	Records         interface{}   `json:"records,omitempty"`
-	GetAttributes   AttributeList `json:"get_attributes,omitempty"`
-	SearchAttribute Attribute     `json:"search_attribute,omitempty"`
-	SearchValue     interface{}   `json:"search_value,omitempty"`
-	SQL             string        `json:"sql"`
-}
-
 func NewClient(endpoint string, username string, password string) *Client {
 	httpClient := resty.
 		New().
