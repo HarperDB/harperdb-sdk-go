@@ -9,7 +9,7 @@ Basics
 
 Instantiate a new client:
 
-		client := harperdb.NewClient("http://localhost:9925", "username", "password")
+	client := harperdb.NewClient("http://localhost:9925", "username", "password")
 
 */
 package harperdb

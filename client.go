@@ -17,7 +17,7 @@ type operation struct {
 	Table           string        `json:"table,omitempty"`
 	HashAttribute   string        `json:"hash_attribute,omitempty"`
 	HashValues      interface{}   `json:"hash_values,omitempty"`
-	Records         []Record      `json:"records,omitempty"`
+	Records         interface{}   `json:"records,omitempty"`
 	GetAttributes   AttributeList `json:"get_attributes,omitempty"`
 	SearchAttribute Attribute     `json:"search_attribute,omitempty"`
 	SearchValue     interface{}   `json:"search_value,omitempty"`

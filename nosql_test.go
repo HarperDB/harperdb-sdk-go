@@ -3,9 +3,11 @@ package harperdb
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 type aRecord struct {
+	Record
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
@@ -35,8 +37,12 @@ func TestInsertEmptySlice(t *testing.T) {
 	wait()
 
 	// inserting an empty slice should not return an error
-	if err := c.Insert(schema, table, []Record{}); err != nil {
+	resp, err := c.Insert(schema, table, []Record{})
+	if err != nil {
 		t.Fatal(err)
+	}
+	if len(resp.InsertedHashes) != 0 {
+		t.Fatal(fmt.Errorf("expected zero inserted hashes"))
 	}
 
 	if err := c.DropSchema(schema); err != nil {
@@ -63,10 +69,14 @@ func TestInsertOne(t *testing.T) {
 
 	record := createTestRecord()
 
-	if err := c.Insert(schema, table, []Record{
+	resp, err := c.Insert(schema, table, []interface{}{
 		record,
-	}); err != nil {
+	})
+	if err != nil {
 		t.Fatal(err)
+	}
+	if len(resp.InsertedHashes) != 1 {
+		t.Fatal(fmt.Errorf("expected 1 inserted hashes"))
 	}
 
 	// TODO Fetch and check
@@ -93,7 +103,7 @@ func TestInsertThousand(t *testing.T) {
 
 	wait()
 
-	data := []Record{}
+	data := []interface{}{}
 
 	for i := 0; i < 1000; i++ {
 		data = append(data, createTestRecord())
@@ -101,8 +111,12 @@ func TestInsertThousand(t *testing.T) {
 
 	// TODO Count records in table to verify
 
-	if err := c.Insert(schema, table, data); err != nil {
+	resp, err := c.Insert(schema, table, data)
+	if err != nil {
 		t.Fatal(err)
+	}
+	if len(resp.InsertedHashes) != len(data) {
+		t.Fatal(fmt.Errorf("expected %d inserted hashes", len(data)))
 	}
 
 	if err := c.DropSchema(schema); err != nil {
@@ -132,7 +146,7 @@ func TestUpdateOne(t *testing.T) {
 		Name: "Harper, the dog",
 	}
 
-	if err := c.Insert(schema, table, []Record{
+	if _, err := c.Insert(schema, table, []interface{}{
 		record,
 	}); err != nil {
 		t.Fatal(err)
@@ -140,10 +154,14 @@ func TestUpdateOne(t *testing.T) {
 
 	record.Name = "Harper, the wolf"
 
-	if err := c.Update(schema, table, []Record{
+	resp, err := c.Update(schema, table, []interface{}{
 		record,
-	}); err != nil {
+	})
+	if err != nil {
 		t.Fatal(err)
+	}
+	if len(resp.UpdatedHashes) != 1 {
+		t.Fatal(fmt.Errorf("expected 1 updated hash"))
 	}
 
 	// TODO Fetch record and check if update was done
@@ -171,8 +189,12 @@ func TestUpdateEmptySlice(t *testing.T) {
 	wait()
 
 	// inserting an empty slice should not return an error
-	if err := c.Update(schema, table, []Record{}); err != nil {
+	resp, err := c.Update(schema, table, []Record{})
+	if err != nil {
 		t.Fatal(err)
+	}
+	if len(resp.UpdatedHashes) != 0 {
+		t.Fatal(fmt.Errorf("expected 0 updated hash"))
 	}
 
 	if err := c.DropSchema(schema); err != nil {
@@ -199,7 +221,7 @@ func TestDeleteOne(t *testing.T) {
 
 	record := createTestRecord()
 
-	if err := c.Insert(schema, table, []Record{
+	if _, err := c.Insert(schema, table, []interface{}{
 		record,
 	}); err != nil {
 		t.Fatal(err)
@@ -207,8 +229,12 @@ func TestDeleteOne(t *testing.T) {
 
 	hashes := []string{record.ID}
 
-	if err := c.Delete(schema, table, hashes); err != nil {
+	resp, err := c.Delete(schema, table, hashes)
+	if err != nil {
 		t.Fatal(err)
+	}
+	if len(resp.DeletedHashes) != 1 {
+		t.Fatal(fmt.Errorf("expected 1 deleted hash"))
 	}
 
 	if err := c.DropSchema(schema); err != nil {
@@ -235,7 +261,7 @@ func TestSearchByHash(t *testing.T) {
 
 	record := createTestRecord()
 
-	if err := c.Insert(schema, table, []Record{
+	if _, err := c.Insert(schema, table, []interface{}{
 		record,
 	}); err != nil {
 		t.Fatal(err)
@@ -282,7 +308,7 @@ func TestSearchByValue(t *testing.T) {
 
 	record := createTestRecord()
 
-	if err := c.Insert(schema, table, []Record{
+	if _, err := c.Insert(schema, table, []interface{}{
 		record,
 	}); err != nil {
 		t.Fatal(err)
@@ -300,6 +326,9 @@ func TestSearchByValue(t *testing.T) {
 	}
 	if !(found[0].ID == record.ID && found[0].Name == record.Name) {
 		t.Fatal(fmt.Errorf("record data is not the same"))
+	}
+	if !found[0].CreatedTime.ToTime().Before(time.Now()) {
+		t.Fatal(fmt.Errorf("record timestamp is too recent"))
 	}
 
 	if err := c.DropSchema(schema); err != nil {
