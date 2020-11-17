@@ -14,28 +14,18 @@ package harperdb
 
 */
 
-type InsertResponse struct {
+type AffectedResponse struct {
 	MessageResponse
 	SkippedHashes  []string `json:"skipped_hashes"`
 	InsertedHashes []string `json:"inserted_hashes"`
-}
-
-type UpdateResponse struct {
-	MessageResponse
-	SkippedHashes []string `json:"skipped_hashes"`
-	UpdatedHashes []string `json:"update_hashes"` // (sic) not updated_hashes
-}
-
-type DeleteResponse struct {
-	MessageResponse
-	SkippedHashes []string `json:"skipped_hashes"`
-	DeletedHashes []string `json:"deleted_hashes"`
+	UpdatedHashes  []string `json:"update_hashes"` // (sic) not updated_hashes
+	DeletedHashes  []string `json:"deleted_hashes"`
 }
 
 // Insert inserts one or more JSON objects into a table
 // Hash value of the inserted JSON record MUST be present.
-func (c *Client) Insert(schema, table string, records interface{}) (*InsertResponse, error) {
-	result := InsertResponse{}
+func (c *Client) Insert(schema, table string, records interface{}) (*AffectedResponse, error) {
+	result := AffectedResponse{}
 	err := c.opRequest(operation{
 		Operation: OP_INSERT,
 		Schema:    schema,
@@ -47,8 +37,8 @@ func (c *Client) Insert(schema, table string, records interface{}) (*InsertRespo
 
 // Update updates one or more JSON objects in a table.
 // Hash value of the inserted JSON record MUST be present.
-func (c *Client) Update(schema, table string, records interface{}) (*UpdateResponse, error) {
-	result := UpdateResponse{}
+func (c *Client) Update(schema, table string, records interface{}) (*AffectedResponse, error) {
+	result := AffectedResponse{}
 	err := c.opRequest(operation{
 		Operation: OP_UPDATE,
 		Schema:    schema,
@@ -60,8 +50,8 @@ func (c *Client) Update(schema, table string, records interface{}) (*UpdateRespo
 
 // Delete delete one or more JSON objects from a table.
 // hashValues must be an array of slice
-func (c *Client) Delete(schema, table string, hashValues AttributeList) (*DeleteResponse, error) {
-	result := DeleteResponse{}
+func (c *Client) Delete(schema, table string, hashValues AttributeList) (*AffectedResponse, error) {
+	result := AffectedResponse{}
 	err := c.opRequest(operation{
 		Operation:  OP_DELETE,
 		Schema:     schema,

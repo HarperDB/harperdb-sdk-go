@@ -2,6 +2,7 @@ package harperdb
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -32,7 +33,7 @@ func wait() {
 }
 
 func randomID() string {
-	return fmt.Sprintf("id-%s", uuid.NewV4().String())
+	return fmt.Sprintf("id_%s", strings.ReplaceAll(uuid.NewV4().String(), "-", "_"))
 }
 
 func TestNewClient(t *testing.T) {

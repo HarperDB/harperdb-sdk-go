@@ -13,4 +13,5 @@ const (
 	OP_DELETE            = "delete"
 	OP_SEARCH_BY_HASH    = "search_by_hash"
 	OP_SEARCH_BY_VALUE   = "search_by_value"
+	OP_SQL               = "sql"
 )

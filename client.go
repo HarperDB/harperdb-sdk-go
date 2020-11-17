@@ -21,6 +21,7 @@ type operation struct {
 	GetAttributes   AttributeList `json:"get_attributes,omitempty"`
 	SearchAttribute Attribute     `json:"search_attribute,omitempty"`
 	SearchValue     interface{}   `json:"search_value,omitempty"`
+	SQL             string        `json:"sql"`
 }
 
 func NewClient(endpoint string, username string, password string) *Client {
