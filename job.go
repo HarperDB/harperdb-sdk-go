@@ -5,6 +5,8 @@ import "time"
 const (
 	JobStatusCompleted  = "COMPLETE"
 	JobStatusInProgress = "IN_PROGRESS"
+
+	DATE_FORMAT = "2006-01-02"
 )
 
 type GetJobResponse struct {
@@ -33,8 +35,21 @@ func (c *Client) GetJob(jobID string) (*GetJobResponse, error) {
 	}
 	if len(resp) != 1 {
 		return nil, &OperationFailedError{
-			err: "expected a job",
+			err: "job not found",
 		}
 	}
 	return &resp[0], nil
+}
+
+func (c *Client) SearchJobsByStartDate(fromDate, toDate time.Time) ([]GetJobResponse, error) {
+	resp := []GetJobResponse{}
+
+	if err := c.opRequest(operation{
+		Operation: OP_SEARCH_JOBS,
+		FromDate:  fromDate.Format(DATE_FORMAT),
+		ToDate:    toDate.Format(DATE_FORMAT),
+	}, &resp); err != nil {
+		return nil, err
+	}
+	return resp, nil
 }

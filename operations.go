@@ -19,6 +19,11 @@ const (
 	OP_CSV_URL_LOAD      = "csv_url_load"
 	OP_DESCRIBE_TABLE    = "describe_table"
 	OP_GET_JOB           = "get_job"
+	OP_SEARCH_JOBS       = "search_jobs_by_start_date"
+	OP_ADD_ROLE          = "add_role"
+	OP_ALTER_ROLE        = "alter_role"
+	OP_DROP_ROLE         = "drop_role"
+	OP_LIST_ROLES        = "list_roles"
 )
 
 type operation struct {
@@ -37,4 +42,8 @@ type operation struct {
 	FilePath        string        `json:"file_path,omitempty"`
 	CSVURL          string        `json:"csv_url,omitempty"`
 	ID              string        `json:"id,omitempty"`
+	FromDate        string        `json:"from_date,omitempty"`
+	ToDate          string        `json:"to_date,omitempty"`
+	Role            string        `json:"role,omitempty"`
+	Permission      Permission    `json:"permission,omitempty"`
 }
