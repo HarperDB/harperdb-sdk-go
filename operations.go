@@ -24,6 +24,11 @@ const (
 	OP_ALTER_ROLE        = "alter_role"
 	OP_DROP_ROLE         = "drop_role"
 	OP_LIST_ROLES        = "list_roles"
+	OP_ADD_USER          = "add_user"
+	OP_ALTER_USER        = "alter_user"
+	OP_DROP_USER         = "drop_user"
+	OP_USER_INFO         = "user_info"
+	OP_LIST_USERS        = "list_users"
 )
 
 type operation struct {
@@ -46,4 +51,7 @@ type operation struct {
 	ToDate          string        `json:"to_date,omitempty"`
 	Role            string        `json:"role,omitempty"`
 	Permission      Permission    `json:"permission,omitempty"`
+	Username        string        `json:"username,omitempty"`
+	Password        string        `json:"password,omitempty"`
+	Active          *bool         `json:"active,omitempty"`
 }

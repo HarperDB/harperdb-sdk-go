@@ -33,19 +33,11 @@ func TestListRoles(t *testing.T) {
 }
 
 func TestDropAndAddRole(t *testing.T) {
-	roles, err := c.ListRoles()
+	foundCU, err := findRole(CLUSTER_USER)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	// Find the Cluster User Role
-	var foundCU *Role
-	for _, role := range roles {
-		if role.Role == CLUSTER_USER {
-			foundCU = &role
-			break
-		}
-	}
 	if foundCU == nil {
 		t.Fatal("did not find cluster user role")
 	}
@@ -67,19 +59,11 @@ func TestDropAndAddRole(t *testing.T) {
 }
 
 func TestAlterRole(t *testing.T) {
-	roles, err := c.ListRoles()
+	foundCU, err := findRole(CLUSTER_USER)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	// Find the Cluster User Role
-	var foundCU *Role
-	for _, role := range roles {
-		if role.Role == CLUSTER_USER {
-			foundCU = &role
-			break
-		}
-	}
 	if foundCU == nil {
 		t.Fatal("did not find cluster user role")
 	}
@@ -98,4 +82,20 @@ func TestAlterRole(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+}
+
+func findRole(name string) (*Role, error) {
+	roles, err := c.ListRoles()
+	if err != nil {
+		return nil, err
+	}
+
+	var found *Role
+	for _, role := range roles {
+		if role.Role == name {
+			found = &role
+			break
+		}
+	}
+	return found, nil
 }
