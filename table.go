@@ -1,14 +1,5 @@
 package harperdb
 
-/*
-- func (c *Client) CreateTable(schema, table string, hashAttribute string) (error)
-- func (c *Client) DropTable(schema, table string) error
-- func (c *Client) DescribeTable(schema, table string) (TableDescription, error)
-- func (c *Client) DescribeAll() (DatabaseDescription, error)
-- func (c *Client) CreateAttribute(schema, table, attribute string) error
-- func (c *Client) DropAttribute(schea, table, attribute string) error
-*/
-
 type DescribeTableResponse struct {
 	Record
 	HashAttribute string           `json:"hash_attribute"`
@@ -19,6 +10,8 @@ type DescribeTableResponse struct {
 	Attributes    []TableAttribute `json:"attributes"`
 	RecordCount   int              `json:"record_count"`
 }
+
+type DescribeAllResponse map[string]map[string]DescribeTableResponse
 
 type TableAttribute struct {
 	Attribute string `json:"attribute"`
@@ -53,4 +46,30 @@ func (c *Client) DescribeTable(schema, table string) (*DescribeTableResponse, er
 	}
 
 	return &resp, nil
+}
+
+func (c *Client) DescribeAll() (*DescribeAllResponse, error) {
+	var result DescribeAllResponse
+	err := c.opRequest(operation{
+		Operation: OP_DESCRIBE_ALL,
+	}, &result)
+	return &result, err
+}
+
+func (c *Client) CreateAttribute(schema, table, attribute string) error {
+	return c.opRequest(operation{
+		Operation: OP_CREATE_ATTRIBUTE,
+		Schema:    schema,
+		Table:     table,
+		Attribute: attribute,
+	}, nil)
+}
+
+func (c *Client) DropAttribute(schema, table, attribute string) error {
+	return c.opRequest(operation{
+		Operation: OP_DROP_ATTRIBUTE,
+		Schema:    schema,
+		Table:     table,
+		Attribute: attribute,
+	}, nil)
 }

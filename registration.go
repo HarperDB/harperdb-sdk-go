@@ -43,3 +43,11 @@ func (c *Client) GetFingerprint() (*GetFingerprintResponse, error) {
 
 	return &result, nil
 }
+
+func (c *Client) SetLicense(key, company string) error {
+	return c.opRequest(operation{
+		Operation: OP_SET_LICENSE,
+		Company:   company,
+		Key:       key,
+	}, nil)
+}
