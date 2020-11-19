@@ -16,10 +16,10 @@ package harperdb
 
 type AffectedResponse struct {
 	MessageResponse
-	SkippedHashes  []string `json:"skipped_hashes"`
-	InsertedHashes []string `json:"inserted_hashes"`
-	UpdatedHashes  []string `json:"update_hashes"` // (sic) not updated_hashes
-	DeletedHashes  []string `json:"deleted_hashes"`
+	SkippedHashes  []interface{} `json:"skipped_hashes"`
+	InsertedHashes []interface{} `json:"inserted_hashes"`
+	UpdatedHashes  []interface{} `json:"update_hashes"` // (sic) not updated_hashes
+	DeletedHashes  []interface{} `json:"deleted_hashes"`
 }
 
 // Insert inserts one or more JSON objects into a table
