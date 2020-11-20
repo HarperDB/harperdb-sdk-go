@@ -6,25 +6,26 @@ import (
 
 type Client struct {
 	endpoint   string
-	httpClient *resty.Client
+	HttpClient *resty.Client
 }
 
 func NewClient(endpoint string, username string, password string) *Client {
 	httpClient := resty.
 		New().
 		SetDisableWarn(true).
+		//		SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
 		SetBasicAuth(username, password)
 
 	return &Client{
 		endpoint:   endpoint,
-		httpClient: httpClient,
+		HttpClient: httpClient,
 	}
 }
 
 func (c *Client) opRequest(op operation, result interface{}) error {
 	e := ErrorResponse{}
 
-	req := c.httpClient.
+	req := c.HttpClient.
 		NewRequest().
 		SetBody(op).
 		SetError(&e)
