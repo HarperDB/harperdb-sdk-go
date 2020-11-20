@@ -21,7 +21,7 @@ const (
 	OP_DESCRIBE_SCHEMA        = "describe_schema"
 	OP_DESCRIBE_TABLE         = "describe_table"
 	OP_DELETE                 = "delete"
-	OP_DROP_ATTRIBUTE         = "drop_atttribute"
+	OP_DROP_ATTRIBUTE         = "drop_attribute"
 	OP_DROP_ROLE              = "drop_role"
 	OP_DROP_SCHEMA            = "drop_schema"
 	OP_DROP_TABLE             = "drop_table"

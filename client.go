@@ -1,8 +1,6 @@
 package harperdb
 
 import (
-	"strings"
-
 	"github.com/go-resty/resty/v2"
 )
 
@@ -37,25 +35,15 @@ func (c *Client) opRequest(op operation, result interface{}) error {
 
 	resp, err := req.Post(c.endpoint)
 	if err != nil {
-		return &OperationFailedError{err: err.Error()}
+		return &OperationError{
+			StatusCode: resp.StatusCode(),
+			Message:    err.Error()}
 	}
-
 	if resp.StatusCode() > 399 {
-		if isAlreadyExistsError(e.Error) {
-			return &AlreadyExistsError{OperationFailedError: OperationFailedError{err: e.Error}}
-		} else if isDoesNotExistsError(e.Error) {
-			return &DoesNotExistsError{OperationFailedError: OperationFailedError{err: e.Error}}
-		}
-		return &OperationFailedError{err: e.Error}
+		return &OperationError{
+			StatusCode: resp.StatusCode(),
+			Message:    e.Error}
 	}
 
 	return nil
-}
-
-func isAlreadyExistsError(msg string) bool {
-	return strings.Contains(msg, "already exists")
-}
-
-func isDoesNotExistsError(msg string) bool {
-	return strings.Contains(msg, "does not exist")
 }

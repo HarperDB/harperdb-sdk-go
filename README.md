@@ -4,6 +4,9 @@
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/HarperDB/harperdb-sdk-go)](https://pkg.go.dev/github.com/HarperDB/harperdb-sdk-go)
 ![CodeQL](https://github.com/HarperDB/harperdb-sdk-go/workflows/CodeQL/badge.svg)
 
+## Requirements
+
+- >= Go 1.13 
 
 ## Installation
 

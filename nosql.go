@@ -1,25 +1,12 @@
 package harperdb
 
-/*
-
-
-{
-  "message": "inserted 2 of 2 records",
-  "skipped_hashes": [],
-  "inserted_hashes": [
-    "2a35ecf8-26e1-4526-8e49-d2a78ba53433",
-    "f7b9dd17-e79f-4e58-afe6-fcaa5d39237b"
-  ]
-}
-
-*/
-
 type AffectedResponse struct {
 	MessageResponse
 	SkippedHashes  []interface{} `json:"skipped_hashes"`
 	InsertedHashes []interface{} `json:"inserted_hashes"`
 	UpdatedHashes  []interface{} `json:"update_hashes"` // (sic) not updated_hashes
 	DeletedHashes  []interface{} `json:"deleted_hashes"`
+	// returned hashes can be of any JSON primitive
 }
 
 // Insert inserts one or more JSON objects into a table

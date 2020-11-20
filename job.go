@@ -1,6 +1,9 @@
 package harperdb
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 const (
 	JobStatusCompleted  = "COMPLETE"
@@ -34,9 +37,7 @@ func (c *Client) GetJob(jobID string) (*GetJobResponse, error) {
 		return nil, err
 	}
 	if len(resp) != 1 {
-		return nil, &OperationFailedError{
-			err: "job not found",
-		}
+		return nil, fmt.Errorf("get job: %w", ErrJobNotFound)
 	}
 	return &resp[0], nil
 }

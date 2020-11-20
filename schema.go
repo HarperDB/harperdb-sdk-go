@@ -1,16 +1,6 @@
 package harperdb
 
-/*
-- func (c *Client) CreateSchema(schema string) error
-- func (c *Client) DropSchema(schema string) error
-- func (c *Client) DescribeSchema(schema string) (SchemaDescription, error)
-- func (c *Client) CreateTable(schema, table string, hashAttribute string) (error)
-- func (c *Client) DescribeTable(schema, table string) (TableDescription, error)
-- func (c *Client) DescribeAll() (DatabaseDescription, error)
-- func (c *Client) DropTable(schema, table string) error
-- func (c *Client) CreateAttribute(schema, table, attribute string) error
-- func (c *Client) DropAttribute(schea, table, attribute string) error
-*/
+// Low-level operations
 
 // CreateSchema creates a new schema.
 // Returns "AlreadyExistsError" if schema already existed.

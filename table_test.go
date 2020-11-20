@@ -44,8 +44,11 @@ func TestCreateDuplicateTable(t *testing.T) {
 	wait()
 
 	err := c.CreateTable(schema, table, "id")
-	if e, ok := err.(*AlreadyExistsError); !ok {
-		t.Fatal(e.err)
+	if e, ok := err.(*OperationError); ok && e.IsAlreadyExistsError() {
+		return
+	} else {
+		t.Log(e)
+		t.Fatalf("should have raised AlreadyExistsError")
 	}
 
 	wait()
@@ -60,11 +63,11 @@ func TestCreateTableInUnknownSchema(t *testing.T) {
 	table := randomID()
 
 	err := c.CreateTable(schema, table, "id")
-	if err == nil {
-		t.Fatal("should have raised DoesNotExistError")
-	}
-	if e, ok := err.(*DoesNotExistsError); !ok {
-		t.Fatal(e)
+	if e, ok := err.(*OperationError); ok && e.IsDoesNotExistError() {
+		return
+	} else {
+		t.Log(e)
+		t.Fatalf("should have raised DoesNotExistError")
 	}
 }
 

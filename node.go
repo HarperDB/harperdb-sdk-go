@@ -16,8 +16,8 @@ type Connection struct {
 }
 
 type ClusterStatusResponse struct {
-	IsEnabled bool   `json:"is_enabled"`
-	NodeName  string `json:"node_name"`
+	IsEnabled bool        `json:"is_enabled"`
+	NodeName  interface{} `json:"node_name"` // (sic) this is an int if cluster is not enabled
 	Status    struct {
 		ID                  string       `json:"id"`
 		Type                string       `json:"type"`

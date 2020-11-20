@@ -27,11 +27,11 @@ func TestDuplicateSchema(t *testing.T) {
 	wait()
 
 	err = c.CreateSchema(schema)
-	if err == nil {
-		t.Fatal("should have raised AlreadyExistsError")
-	}
-	if e, ok := err.(*AlreadyExistsError); !ok {
-		t.Fatal(e)
+	if e, ok := err.(*OperationError); ok && e.IsAlreadyExistsError() {
+		return
+	} else {
+		t.Log(e)
+		t.Fatalf("should have raised AlreadyExistsError")
 	}
 
 	if err := c.DropSchema(schema); err != nil {
@@ -56,10 +56,10 @@ func TestDropSchema(t *testing.T) {
 	wait()
 
 	err = c.DropSchema(schema)
-	if err == nil {
+	if e, ok := err.(*OperationError); ok && e.IsDoesNotExistError() {
+		return
+	} else {
+		t.Log(e)
 		t.Fatal("should have raised DoesNotExist error")
-	}
-	if e, ok := err.(*DoesNotExistsError); !ok {
-		t.Fatal(e)
 	}
 }

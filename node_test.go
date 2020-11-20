@@ -44,4 +44,5 @@ func TestCluserStatus(t *testing.T) {
 	}
 
 	// TODO Here we could do a little more testing
+	// with an active cluster
 }

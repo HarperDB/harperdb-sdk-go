@@ -1,21 +1,29 @@
 package harperdb
 
-type OperationFailedError struct {
-	err string
+import (
+	"errors"
+	"fmt"
+	"strings"
+)
+
+type OperationError struct {
+	StatusCode int
+	Message    string
 }
 
-func (e *OperationFailedError) Error() string {
-	return e.err
+func (e *OperationError) Error() string {
+	return fmt.Sprintf("%s (%d)", e.Message, e.StatusCode)
 }
 
-type AlreadyExistsError struct {
-	OperationFailedError
+func (e *OperationError) IsAlreadyExistsError() bool {
+	return e.StatusCode > 399 && strings.Contains(e.Message, "already exists")
 }
 
-type DoesNotExistsError struct {
-	OperationFailedError
+func (e *OperationError) IsDoesNotExistError() bool {
+	return e.StatusCode > 399 && strings.Contains(e.Message, "does not exist")
 }
 
-type UnknownJobStatusError struct {
-	OperationFailedError
-}
+var (
+	ErrJobStatusUnknown = errors.New("unknown job status")
+	ErrJobNotFound      = errors.New("job not found")
+)

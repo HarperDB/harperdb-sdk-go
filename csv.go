@@ -1,6 +1,7 @@
 package harperdb
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 	"strings"
@@ -44,11 +45,7 @@ func (c *Client) csvDataLoad(schema, table, action string, data io.Reader) (stri
 		return jobID, nil
 	}
 
-	return "", &UnknownJobStatusError{
-		OperationFailedError: OperationFailedError{
-			err: "did not get a job ID from harper instance",
-		},
-	}
+	return "", fmt.Errorf("did not get a job ID from harper instance: %w", ErrJobStatusUnknown)
 }
 
 // CSVFileLoad takes a path of a file which must exist on the server
@@ -73,11 +70,7 @@ func (c *Client) CSVFileLoad(schema, table string, update bool, filePath string)
 		return jobID, nil
 	}
 
-	return "", &UnknownJobStatusError{
-		OperationFailedError: OperationFailedError{
-			err: "did not get a job ID from harper instance",
-		},
-	}
+	return "", fmt.Errorf("did not get a job ID from harper instance: %w", ErrJobStatusUnknown)
 }
 
 // CSVURLLoad takes a public URL
@@ -102,11 +95,7 @@ func (c *Client) CSVURLLoad(schema, table string, update bool, csvURL string) (s
 		return jobID, nil
 	}
 
-	return "", &UnknownJobStatusError{
-		OperationFailedError: OperationFailedError{
-			err: "did not get a job ID from harper instance",
-		},
-	}
+	return "", fmt.Errorf("did not get a job ID from harper instance: %w", ErrJobStatusUnknown)
 }
 
 // extractJobIDFromMessage Askes HarperDB team to return the Job ID
