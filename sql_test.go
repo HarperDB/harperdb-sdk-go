@@ -70,3 +70,18 @@ func TestSQL(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestSQLGet(t *testing.T) {
+	if ts, err := c.SQLGet("SELECT CURRENT_TIMESTAMP"); err == nil {
+		t.Log(ts)
+		if val, ok := ts.(float64); ok {
+			t.Log(val)
+			if val > 0 {
+				return
+			}
+		}
+	} else {
+		t.Log(err)
+	}
+	t.Fail()
+}

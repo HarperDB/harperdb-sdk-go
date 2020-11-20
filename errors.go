@@ -26,4 +26,7 @@ func (e *OperationError) IsDoesNotExistError() bool {
 var (
 	ErrJobStatusUnknown = errors.New("unknown job status")
 	ErrJobNotFound      = errors.New("job not found")
+	ErrNoRows           = errors.New("did not return any rows")
+	ErrTooManyRows      = errors.New("did return more than one row")
+	ErrNotSingleColumn  = errors.New("expected a single column return")
 )

@@ -25,3 +25,39 @@ func (c *Client) SQLExec(stmt string, args ...interface{}) (*AffectedResponse, e
 	}, &result)
 	return &result, err
 }
+
+// SQLGet is to query a scalar value from the database. This function is
+// not part of the official HarperDB API.
+// It executes a SQL statement and expects exactly one object with one key.
+// I.e. SELECT CURRENT_TIMESTAMP
+// Will return the following errors:
+// - ErrNoRows
+// - ErrTooManyRows
+// - ErrNotSingleColumn
+func (c *Client) SQLGet(stmt string, args ...interface{}) (interface{}, error) {
+	var result []map[string]interface{}
+
+	err := c.opRequest(operation{
+		Operation: OP_SQL,
+		SQL:       fmt.Sprintf(stmt, args...),
+	}, &result)
+
+	if err != nil {
+		return nil, err
+	}
+	if len(result) == 0 {
+		return nil, ErrNoRows
+	}
+	if len(result) > 1 {
+		return nil, ErrTooManyRows
+	}
+
+	row := result[0]
+	for _, val := range row {
+		// Return at the first key found...
+		return val, nil
+	}
+
+	// otherwise, we had either zero or many keys
+	return nil, ErrNotSingleColumn
+}
