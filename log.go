@@ -25,7 +25,7 @@ type LogResponse struct {
 type TxLogEntry struct {
 	Operation  string                   `json:"operation"`
 	UserName   string                   `json:"user_name"`
-	Timestamp  harperTimestamp          `json:"timestamp"` // this is a float
+	Timestamp  Timestamp                `json:"timestamp"` // this is a float
 	HashValues []interface{}            `json:"hash_values"`
 	Records    []map[string]interface{} `json:"records"`
 	// It would be possible to pass a target struct

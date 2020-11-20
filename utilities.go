@@ -42,10 +42,10 @@ type SysInfo struct {
 		NPMVersion  string `json:"npm_version"`
 	} `json:"system"`
 	Time struct {
-		Current      harperTimestamp `json:"current"`
-		Uptime       int64           `json:"uptime"`
-		Timezone     string          `json:"timezone"`
-		TimezoneName string          `json:"timezoneName"`
+		Current      Timestamp `json:"current"`
+		Uptime       int64     `json:"uptime"`
+		Timezone     string    `json:"timezone"`
+		TimezoneName string    `json:"timezoneName"`
 	} `json:"time"`
 	CPU struct {
 		Manufacturer  string `json:"manufacturer"`

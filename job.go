@@ -15,16 +15,16 @@ const (
 type GetJobResponse struct {
 	Record
 	MessageResponse
-	CreatedDateTime        harperTimestamp `json:"created_datetime"`
-	EndDateTime            harperTimestamp `json:"end_datetime"`
-	StartDateTime          harperTimestamp `json:"start_datetime"`
-	ID                     string          `json:"id"`
-	JobBody                string          `json:"job_body"` // TODO Not verified
-	Status                 string          `json:"status"`
-	Type                   string          `json:"type"`
-	User                   string          `json:"user"`
-	StartDateTimeConverted time.Time       `json:"start_datetime_converted"`
-	EndDateTimeConverted   time.Time       `json:"end_datetime_converted"`
+	CreatedDateTime        Timestamp `json:"created_datetime"`
+	EndDateTime            Timestamp `json:"end_datetime"`
+	StartDateTime          Timestamp `json:"start_datetime"`
+	ID                     string    `json:"id"`
+	JobBody                string    `json:"job_body"` // TODO Not verified
+	Status                 string    `json:"status"`
+	Type                   string    `json:"type"`
+	User                   string    `json:"user"`
+	StartDateTimeConverted time.Time `json:"start_datetime_converted"`
+	EndDateTimeConverted   time.Time `json:"end_datetime_converted"`
 }
 
 func (c *Client) GetJob(jobID string) (*GetJobResponse, error) {

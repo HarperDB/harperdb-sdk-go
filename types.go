@@ -19,13 +19,13 @@ func FromStringSlice(ss []string) AttributeList {
 // Meta data fields are read-only.
 // Overwriting .CreatedTime and .UpdatedTime will have no effect.
 type Record struct {
-	CreatedTime harperTimestamp `json:"__createdtime__"`
-	UpdatedTime harperTimestamp `json:"__updatedtime__"`
+	CreatedTime Timestamp `json:"__createdtime__"`
+	UpdatedTime Timestamp `json:"__updatedtime__"`
 }
 
-type harperTimestamp int64
+type Timestamp int64
 
-func (t harperTimestamp) ToTime() time.Time {
+func (t Timestamp) ToTime() time.Time {
 	return time.Unix(int64(t)/1000, int64(t)&1000)
 }
 
