@@ -23,6 +23,10 @@ func (e *OperationError) IsDoesNotExistError() bool {
 	return e.StatusCode > 399 && strings.Contains(e.Message, "does not exist")
 }
 
+func (e *OperationError) IsNotAuthorizedError() bool {
+	return e.StatusCode == 403
+}
+
 var (
 	ErrJobStatusUnknown = errors.New("unknown job status")
 	ErrJobNotFound      = errors.New("job not found")
